@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>轮播图</title>
+<style>
+* {
+	padding:0;
+	margin:0;
+}
+ul,li{
+    list-style:none;
+}
+.wrap{
+width: 1000px;
+}
+#box {
+	position:relative;
+    margin-left:235px;
+    margin-top:100px;
+	width:790px;
+	height:340px;
+    overflow:hidden;
+}
+img{
+     border:none;
+     display:block;
+	 }
+#box a{
+    display:block;
+}
+#photo{
+    position:absolute;
+	top:0;
+}
+.point {
+	position:absolute;
+	text-align:center;
+	width:100%;
+	bottom:10px;	
+	z-index:99;
+	cursor:pointer;
+}
+.point ul li {
+	display:inline-block;
+	background-color:#666666;
+    width:15px;
+    height:15px;
+	border-radius:50%;
+}
+#left,#right {  /*左右键*/
+    position: absolute;
+    width: 40px;
+    height: 80px;
+    top: 120px;
+    text-align: center;
+    line-height: 100px;
+    font-size: 30px;
+    color: white;
+    z-index:9;
+    cursor: pointer;
+	background:rgba(0,0,0,0.4);
+	
+}
+#left{
+    left:0px;
+}
+#right{
+     
+	  right:0px;
+}
+</style>
+</head>
+<body>
+<div class="banner">
+    <div class="wrap">   <!--这个可以不要-->
+        <div id="box">
+            <div class="left" id="left"> < </div><!--左侧键-->
+            <div class="right" id="right"> > </div>  <!--右侧键-->
+            <ul class="photo" id="photo">
+                <li><a href="#"><img src="img/1.jpg"/></a></li>
+                <li><a href="#"><img src="img/2.jpg"/></a></li>
+                <li><a href="#"><img src="img/3.jpg"/></a></li>
+                <li><a href="#"><img src="img/4.jpg"/></a></li>
+                <li><a href="#"><img src="img/5.jpg"/></a></li>
+                <li><a href="#"><img src="img/6.jpg"/></a></li>
+            </ul>
+            <div  class="point">
+                <ul class="points" id="points">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script src="js/jquery-v1.10.2.min.js"></script>
+<script>
+  var len=$(".photo li").length;   //图片
+  var po=0;
+  var play = true;
+
+  //自定义一个公共函数
+  function slideplay(){
+	 $(".photo li").css("display","none"); 
+	 $(".photo li").eq(po).css("display","block");  
+	 //按钮
+	 $(".points li").css("background","#ccc");
+	 $(".points li").eq(po).css("background","red");
+	  
+	  }
+  
+  //轮播函数
+  function box(){
+  if(play){
+      //图片
+     /*$(".photo li").css("display","none"); 
+	 $(".photo li").eq(po).css("display","block");  
+	 //按钮
+	 $(".points li").css("background","#ccc");
+	 $(".points li").eq(po).css("background","red");*/
+	 slideplay();
+	 po ++;
+	 po %= len;
+	 }
+	 setTimeout(box,1000);
+  }
+box()
+
+
+//鼠标悬停图片上
+  $("#box").mouseover(function(){  //鼠标停止
+         play=false;
+  }).mouseout(function(){       //鼠标移开      .mouseout前面$(".box")可以省略
+         play=true;
+  })
+  
+  
+  
+//按钮切换图片
+    $(".points li").mouseover(function(){
+	                        po = $(this).index();	
+	                        slideplay();   
+	   })
+//   左边<
+         
+   $(".left").click(function(){
+                            po--;
+	                        po %= len;
+		                    slideplay();
+         })
+   
+   
+//右边>
+ $(".right").click(function(){
+		  po++;
+		  po %= len;
+		  slideplay();
+		  }
+				)
+   
+
+</script>
+</body>
+</html>
